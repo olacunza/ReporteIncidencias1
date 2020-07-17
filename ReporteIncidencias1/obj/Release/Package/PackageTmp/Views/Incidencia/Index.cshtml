@@ -1,0 +1,153 @@
+﻿@model IEnumerable<ReporteIncidencias1.Models.Incidencia>
+@{
+    ViewBag.Tittle = "Buscar";
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Buscar</title>
+</head>
+<body>
+    <div>
+        <div class="row">
+            <div class="col-md-6">
+                @using (Html.BeginForm())
+                {
+                    <p>
+                        Buscar por nombre: @Html.TextBox("nombre")
+                        <input type="submit" value="Buscar" />
+                    </p>
+                }
+                <p>
+            </div>
+            <div class="col-md-2 col-md-offset-4">
+                <script>
+                    var pfHeaderImgUrl = ''; var pfHeaderTagline = ''; var pfdisableClickToDel = 0;
+                    var pfHideImages = 0; var pfImageDisplayStyle = 'right'; var pfDisablePDF = 0;
+                    var pfDisableEmail = 1; var pfDisablePrint = 1; var pfCustomCSS = '';
+                    var pfBtVersion = '2'; (function () {
+                        var js, pf;
+                        pf = document.createElement('script'); pf.type = 'text/javascript';
+                        pf.src = '//cdn.printfriendly.com/printfriendly.js'; document.getElementsByTagName('head')[0].appendChild(pf)
+                    })();</script><a href="https://www.printfriendly.com"
+                                     style="color:#6D9F00;text-decoration:none;"
+                                     class="printfriendly" onclick="window.print();return false;"
+                                     title="Exportar a PDF">
+                    <img style="border:none;
+                            -webkit-box-shadow:none;box-shadow:none;"
+                         src="http://www.reviversoft.com/blog/wp-content/uploads/2013/05/Compatibility_Adobe_PDF_Logo.jpg"
+                         alt="Exportar a PDF" width="50px" height="50px" />
+                </a>
+            </div><br />
+        </div>
+            <br />
+        <style>
+            .botonRegis {
+                display: block;
+                width: 100%;
+                height: 100%;
+                padding: 6px 12px;
+                font-size: 14px;
+                font-weight:600;
+                color: #555555;
+                background-image: none;
+                -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
+                box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
+                -webkit-transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s;
+                -o-transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s;
+                -webkit-transition: border-color ease-in-out .15s, -webkit-box-shadow ease-in-out .15s;
+                transition: border-color ease-in-out .15s, -webkit-box-shadow ease-in-out .15s;
+                transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s;
+                transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s, -webkit-box-shadow ease-in-out .15s;
+            }
+        </style>
+                    <button>@Html.ActionLink("Registrar Incidencia", "Create",new object { }, new {@class="botonRegis" })</button>
+            <br /><br />
+                  <button>@Html.ActionLink("Priorizar por Semaforización", "Priorizar",new object { }, new { @class = "botonRegis" })</button>
+        </p><br />
+        <table class="table">
+            <center>
+                <tr>
+                    <th>
+                        @Html.DisplayNameFor(model => model.IncidenciaID)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.UnidadAtencion)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.TipoIncidencia)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Mancomunidad)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Distrito)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Semaforizacion)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.FuenteInfo)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.FechaIncidencia)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.HoraRegistroInc)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.EstadoIncidencia)
+                    </th>
+                    <th style="color:#ffff">&nbsp&nbsp</th>
+                </tr>
+            </center>
+
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.IncidenciaID)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.UnidadAtencion)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.TipoIncidencia)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Mancomunidad)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Distrito)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Semaforizacion)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.FuenteInfo)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.FechaIncidencia)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.HoraRegistroInc)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.EstadoIncidencia)
+                    </td>
+                    <td style="width:180px;">
+                        <!--<a href="~/IncHistorial/Create">Edit</a>-->
+                        @Html.ActionLink("Editar", "Edit", new { id = item.IncidenciaID }) |
+                        @Html.ActionLink("Detalles", "Details", new { id = item.IncidenciaID }) |
+                        @Html.ActionLink("Eliminar", "Delete", new { id = item.IncidenciaID })
+                    </td>
+                </tr>
+            }
+
+        </table>
+    </div>
+</body>
+</html>

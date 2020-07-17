@@ -1,0 +1,96 @@
+﻿@model IEnumerable<ReporteIncidencias1.Models.Incidencia>
+
+@{
+    ViewBag.Tittle = "Index";
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Index</title>
+</head>
+<body>
+    <p><br />
+        @Html.ActionLink("Create New", "Create")
+        <br /><br />
+        @Html.ActionLink("Priorizar por orden de registro", "Index")
+    </p><br />
+    </p>
+    <table class="table">
+        <center>
+            <tr>
+                <th>
+                    @Html.DisplayNameFor(model => model.IncidenciaID)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.UnidadAtencion)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.TipoIncidencia)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Mancomunidad)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Distrito)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Semaforizacion)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.FuenteInfo)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.FechaIncidencia)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.EstadoIncidencia)
+                </th>
+                <th style="color:#ffff">&nbsp&nbsp</th>
+            </tr>
+        </center>
+
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.IncidenciaID)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.UnidadAtencion)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.TipoIncidencia)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Mancomunidad)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Distrito)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Semaforizacion)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.FuenteInfo)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.FechaIncidencia)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.EstadoIncidencia)
+                </td>
+                <td style="width:150px;">
+                    <!--<a href="~/IncHistorial/Create">Edit</a>-->
+                    @Html.ActionLink("Edit", "Edit", new { id = item.IncidenciaID }) |
+                    @Html.ActionLink("Details", "Details", new { id = item.IncidenciaID }) |
+                    @Html.ActionLink("Delete", "Delete", new { id = item.IncidenciaID })
+                </td>
+            </tr>
+        }
+
+    </table>
+</body>
+</html>

@@ -1,0 +1,732 @@
+﻿@model ReporteIncidencias1.Models.Incidencia
+
+@{
+    ViewBag.Tittle = "Index";
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Create</title>
+</head>
+<body>
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/jqueryval")
+    <script src="~/Scripts/jquery-3.5.1.js"></script>
+
+    <script>
+        //var tippp = document.getElementById('Tipos');
+        $(document).ready(function () {
+            $('#ModalidadIncidencia').empty();
+            $("#TipoIncidencia").prop("disabled", true);
+            $("#SubTipoIncidencia").prop("disabled", true);
+            $("#ModalidadIncidencia").prop("disabled", true);
+            $('#ModalidadIncidencia').empty();
+            $("#UnidadAtencion").change(function () {
+                if ($("#UnidadAtencion").val() != "Seleccionar") {
+                    $('#SubTipoIncidencia').empty();
+                    $('#ModalidadIncidencia').empty();
+                    //$('#pintarTipos').empty();
+                    //$('#pintarST').empty();
+                    //$('#pintarMod').empty();
+                    var UnidadOptions = {};
+                    UnidadOptions.url = "/Incidencia/Tipos";
+                    UnidadOptions.type = "POST";
+                    UnidadOptions.data = JSON.stringify({ Unidad: $("#UnidadAtencion").val() });
+                    UnidadOptions.datatype = "json";
+                    UnidadOptions.contentType = "application/json";
+                    UnidadOptions.success = function (ListTipos) {
+                        $("#TipoIncidencia").empty();
+                        for (var i = 0; i < ListTipos.length; i++) {
+                            $("#TipoIncidencia").append("<option>" + ListTipos[i] + "</option > ");
+                        }
+                        $("#TipoIncidencia").prop("disabled", false);
+                    };
+                    UnidadOptions.error = function () { alert("Error Obteniendo los !!"); };
+                    $.ajax(UnidadOptions);
+                }
+                else {
+                    $("#TipoIncidencia").empty();
+                    $('#SubTipoIncidencia').empty();
+                    $('#Modalidad').empty();
+                    $("#TipoIncidencia").prop("disabled", true);
+                }
+
+            });
+            $('#Distrito').prop("disabled", true);
+            $("#Mancomunidad").change(function () {
+                $('#Distrito').prop("disabled", false);
+                $('#Distrito').empty();
+                if ($("#Mancomunidad").val() != "Seleccionar") {
+                    var UnidadOptions = {};
+                    UnidadOptions.url = "/Incidencia/Distrito";
+                    UnidadOptions.type = "POST";
+                    UnidadOptions.data = JSON.stringify({ Mancomunidad: $("#Mancomunidad").val() });
+                    UnidadOptions.datatype = "json";
+                    UnidadOptions.contentType = "application/json";
+                    UnidadOptions.success = function (ListDistritos) {
+                        $("#Distrito").empty();
+                        for (var i = 0; i < ListDistritos.length; i++) {
+                            $("#Distrito").append("<option>" + ListDistritos[i] + "</option > ");
+                        }
+                        $("#Distrito").prop("disabled", false);
+                    };
+                    UnidadOptions.error = function () { alert("Error Obteniendo los !!"); };
+                    $.ajax(UnidadOptions);
+                }
+                else {
+                    $("#Distrito").prop("disabled", true);
+                }
+
+            });
+
+            $('#TipoIncidencia').on('change', function () {
+                $("#SubTipoIncidencia").prop("disabled", false);
+                //$('#pintarTipos').val($("#Tipos option:selected").text());
+                $('#SubTipoIncidencia').empty();
+                $('#ModalidadIncidencia').empty();
+                $('#Modalidad').empty();
+                var text_select = $("#TipoIncidencia option:selected").text();
+
+                switch (text_select) {
+                    case "ACCIDENTES DE TRANSITO":
+
+                        $('#SubTipoIncidencia').append('<option value="">SELECCIONAR</option>')
+                        $('#SubTipoIncidencia').append('<option value="ATROPELLO">ATROPELLO</option>')
+                        $('#SubTipoIncidencia').append('<option value="CHOQUE">CHOQUE</option>')
+                        $('#SubTipoIncidencia').append('<option value="INCENDIO DE VEHICULO">INCENDIO DE VEHICULO</option>')
+                        $('#SubTipoIncidencia').append('<option value="DESPISTE">DESPISTE</option>')
+                        $('#SubTipoIncidencia').append('<option value="VOLCADURA">VOLCADURA</option>')
+                        $('#SubTipoIncidencia').append('<option value="CAÍDA DE PASAJERO">CAÍDA DE PASAJERO</option>')
+
+                        break;
+
+                    case "HECHO CONTRA LA VIDA EL CUERPO Y LA SALUD":
+
+                        $('#SubTipoIncidencia').append('<option value="">SELECCIONAR</option>')
+                        $('#SubTipoIncidencia').append('<option value="HALLAZGO DE CADAVER">HALLAZGO DE CADAVER</option>')
+                        $('#SubTipoIncidencia').append('<option value="INTENTO DE SUICIDIO">INTENTO DE SUICIDIO</option>')
+                        $('#SubTipoIncidencia').append('<option value="AGRESIONES FISICAS Y/O PSICOLOGICAS">AGRESIONES FISICAS Y/O PSICOLOGICAS</option>')
+                        $('#SubTipoIncidencia').append('<option value="SECUESTRO">SECUESTRO</option>')
+                        $('#SubTipoIncidencia').append('<option value="LESIONES">LESIONES</option>')
+
+                        break;
+
+                    case "HECHO CONTRA LA LIBERTAD":
+
+                        $('#SubTipoIncidencia').append('<option value="">Seleccionar </option>')
+                        $('#SubTipoIncidencia').append('<option value="TRATA DE PERSONAS">TRATA DE PERSONAS</option>')
+                        $('#SubTipoIncidencia').append('<option value="VIOLACION A LA INTIMIDAD">VIOLACION A LA INTIMIDAD</option>')
+                        $('#SubTipoIncidencia').append('<option value="VIOLACION DE DOMICILIO">VIOLACION DE DOMICILIO</option>')
+                        $('#SubTipoIncidencia').append('<option value="VIOLACION SEXUAL">VIOLACION SEXUAL</option>')
+                        $('#SubTipoIncidencia').append('<option value="OFENSAS Y ACTOS CONTRA EL PUDOR">OFENSAS Y ACTOS CONTRA EL PUDOR </option>')
+                        $('#SubTipoIncidencia').append('<option value="PROSTITUCION CALLEJERO Y/O CLANDESTINO">PROSTITUCION CALLEJERO Y/O CLANDESTINO </option>')
+                        $('#SubTipoIncidencia').append('<option value="ACOSO Y/O ACOSO SEXUAL">ACOSO Y/O ACOSO SEXUAL</option>')
+                        $('#SubTipoIncidencia').append('<option value="CHANTAJE SEXUAL Y/O DIFUSION DE IMÁGENES CON CONTENIDO SEXUAL">CHANTAJE SEXUAL Y/O DIFUSION DE IMÁGENES CON CONTENIDO SEXUAL</option>')
+
+                        break;
+
+                    case "HECHO CONTRA EL PATRIMONIO":
+
+                        $('#SubTipoIncidencia').append('<option value="">SELECCIONAR</option>')
+                        $('#SubTipoIncidencia').append('<option value="HECHOS A TRANSEUNTES EN LA VIA PUBLICA">HECHOS A TRANSEUNTES EN LA VIA PUBLICA</option>')
+                        $('#SubTipoIncidencia').append('<option value="HECHOS A ESTABLECIMIENTOS COMERCIAL">HECHOS A ESTABLECIMIENTOS COMERCIAL</option>')
+                        $('#SubTipoIncidencia').append('<option value="HECHOS A TRANSEUNTES DENTRO DE LOCAL COMERCIAL">HECHOS A TRANSEUNTES DENTRO DE LOCAL COMERCIAL</option>')
+                        $('#SubTipoIncidencia').append('<option value="ROBO DE AUTOPARTES Y/O ACCESORIOS">ROBO DE AUTOPARTES Y/O ACCESORIOS</option>')
+                        $('#SubTipoIncidencia').append('<option value="ROBO DE VEHICULOS">ROBO DE VEHICULOS</option>')
+                        $('#SubTipoIncidencia').append('<option value="ROBO DE VEHICULOS MENORES">ROBO DE VEHICULOS MENORES</option>')
+                        $('#SubTipoIncidencia').append('<option value="ROBO DE VIVIENDA MULTIFAMILIAR">ROBO DE VIVIENDA MULTIFAMILIAR</option>')
+                        $('#SubTipoIncidencia').append('<option value="ROBO DE VIVIENDA UNIFAMILIAR">ROBO DE VIVIENDA UNIFAMILIAR</option>')
+
+                        break;
+
+                    case "OTROS HECHOS CONTRA EL PATRIMONIO":
+
+                        $('#SubTipoIncidencia').append('<option value="">SELECCIONAR</option>')
+                        $('#SubTipoIncidencia').append('<option value="ESTAFA Y OTRAS DEFRAUDACIONES">ESTAFA Y OTRAS DEFRAUDACIONES</option>')
+                        $('#SubTipoIncidencia').append('<option value="APROPIACION ILICITA">APROPIACION ILICITA</option>')
+                        $('#SubTipoIncidencia').append('<option value="EXTORSION Y CHANTAJE">EXTORSION Y CHANTAJE</option>')
+                        $('#SubTipoIncidencia').append('<option value="DAÑOS A LA PROPIEDAD">DAÑOS A LA PROPIEDAD</option>')
+                        $('#SubTipoIncidencia').append('<option value="DELITOS INFORMATICOS">DELITOS INFORMATICOS</option>')
+                        $('#SubTipoIncidencia').append('<option value="ABANDONO Y ACTOS DE CRUELDAD CONTRA ANIMALES">ABANDONO Y ACTOS DE CRUELDAD CONTRA ANIMALES</option>')
+
+                        break;
+
+                    case "HECHOS CONTRA LA SEGURIDAD PUBLICA":
+
+                        $('#SubTipoIncidencia').append('<option value="">SELECCIONAR</option>')
+                        $('#SubTipoIncidencia').append('<option value="CONDUCCION EN ESTADO DE EBRIEDAD Y/O DROGADICCION">CONDUCCION EN ESTADO DE EBRIEDAD Y/O DROGADICCION</option>')
+                        $('#SubTipoIncidencia').append('<option value="USO DE PRODUCTOS PIROTECNICOS SIN AUTORIZACION">USO DE PRODUCTOS PIROTECNICOS SIN AUTORIZACION</option>')
+                        $('#SubTipoIncidencia').append('<option value="MICROCOMERCIALIZACION DE DROGAS">MICROCOMERCIALIZACION DE DROGAS</option>')
+                        $('#SubTipoIncidencia').append('<option value="CONSUMO DE LICOR EN LA VIA PUBLICA Y/O INTERIOR DE VEHICULO">CONSUMO DE LICOR EN LA VIA PUBLICA Y/O INTERIOR DE VEHICULO</option>')
+                        $('#SubTipoIncidencia').append('<option value="CONSUMO DE DROGAS">CONSUMO DE DROGAS</option>')
+                        $('#SubTipoIncidencia').append('<option value="PANDILLEROS">PANDILLEROS</option>')
+                        $('#SubTipoIncidencia').append('<option value="PRESENCIA DE MANIFESTANTES">PRESENCIA DE MANIFESTANTES</option>')
+                        $('#SubTipoIncidencia').append('<option value="USO Y TENENCIA DE ARMAS DE FUEGO">USO Y TENENCIA DE ARMAS DE FUEGO </option>')
+
+                        break;
+
+                    case "HECHOS CONTRA LA HUMANIDAD":
+
+                        $('#SubTipoIncidencia').append('<option value="DISCRIMINACION">DISCRIMINACION</option>')
+
+                        break;
+
+
+                    case "SOSPECHOSOS":
+
+                        $('#SubTipoIncidencia').append('<option value="">SELECCIONAR</option>')
+                        $('#SubTipoIncidencia').append('<option value="PERSONAS SOSPECHOSAS">PERSONAS SOSPECHOSAS</option>')
+                        $('#SubTipoIncidencia').append('<option value="VEHICULOS SOSPECHOSOS">VEHICULOS SOSPECHOSOS</option>')
+
+                        break;
+
+                    case "PATRULLAJES":
+
+                        $('#SubTipoIncidencia').append('<option value="">SELECCIONAR</option>')
+                        $('#SubTipoIncidencia').append('<option value="PATRULLAJE INTEGRADO">PATRULLAJE INTEGRADO</option>')
+                        $('#SubTipoIncidencia').append('<option value="PATRULLAJE MUNICIPAL">PATRULLAJE MUNICIPAL </option>')
+                        $('#SubTipoIncidencia').append('<option value="PATRULLAJE Y TÁCTICOS">PATRULLAJE Y TÁCTICOS</option>')
+                        $('#SubTipoIncidencia').append('<option value="PATRULLAJES CON JJ.VV">PATRULLAJES CON JJ.VV</option>')
+                        $('#SubTipoIncidencia').append('<option value="TÁCTICOS COLEGIOS">TÁCTICOS COLEGIOS</option>')
+
+                        break;
+                    case "OPERATIVOS":
+
+                        $('#SubTipoIncidencia').append('<option value="">SELECCIONAR</option>')
+                        $('#SubTipoIncidencia').append('<option value="VÍA PÚBLICA">VÍA PÚBLICA</option>')
+                        $('#SubTipoIncidencia').append('<option value="ENTIDADES PRIVADAS">ENTIDADES PRIVADAS</option>')
+                        $('#SubTipoIncidencia').append('<option value="ENTIDADES PÚBLICAS">ENTIDADES PÚBLICAS</option>')
+                        $('#SubTipoIncidencia').append('<option value="EDIFICACIONES">EDIFICACIONES</option>')
+                        $('#SubTipoIncidencia').append('<option value="LOCALES COMERCIALES SIN MEDIDAS DE SEGURIDAD">LOCALES COMERCIALES SIN MEDIDAS DE SEGURIDAD </option>')
+                        $('#SubTipoIncidencia').append('<option value="ESTABLECIMIENTO COMERCIAL CON FINES DE DIVERSIÓN">ESTABLECIMIENTO COMERCIAL CON FINES DE DIVERSIÓN</option>')
+                        $('#SubTipoIncidencia').append('<option value="ALARMAS DE SEGURIDAD">ALARMAS DE SEGURIDAD </option>')
+                        $('#SubTipoIncidencia').append('<option value="EVENTO SEGURO">EVENTO SEGURO</option>')
+                        $('#SubTipoIncidencia').append('<option value="FISCALIZACIÓN DE LOCALES DE INTERNET">FISCALIZACIÓN DE LOCALES DE INTERNET</option>')
+
+                        break;
+
+                    case "APOYO AL CONTRIBUYENTE":
+
+                        $('#SubTipoIncidencia').append('<option value="">SELECCIONAR</option>')
+                        $('#SubTipoIncidencia').append('<option value="AUXILIO VIAL">AUXILIO VIAL</option>')
+                        $('#SubTipoIncidencia').append('<option value="AUXILIO MEDICO">AUXILIO MEDICO</option>')
+                        $('#SubTipoIncidencia').append('<option value="CONSULTAS">CONSULTAS</option>')
+                        $('#SubTipoIncidencia').append('<option value="HALLAZGO O BUSQUEDA DE ANIMALES EXTRAVIADOS">HALLAZGO O BUSQUEDA DE ANIMALES EXTRAVIADOS</option>')
+                        $('#SubTipoIncidencia').append('<option value="RESCATE DE PERSONAS (PLAYA - ACANTILADO)">RESCATE DE PERSONAS (PLAYA - ACANTILADO)</option>')
+                        $('#SubTipoIncidencia').append('<option value="ANIMALES HERIDOS Y/O VARADOS">ANIMALES HERIDOS Y/O VARADOS</option>')
+                        $('#SubTipoIncidencia').append('<option value="ATAQUE ANIMAL">ATAQUE ANIMAL</option>')
+                        $('#SubTipoIncidencia').append('<option value="APOYO FUERZA">APOYO FUERZA</option>')
+                        $('#SubTipoIncidencia').append('<option value="GRESCA">GRESCA</option>')
+                        $('#SubTipoIncidencia').append('<option value="PERSONAS DESORIENTADAS Y/O EXTRAVIADOS">PERSONAS DESORIENTADAS Y/O EXTRAVIADOS</option>')
+                        $('#SubTipoIncidencia').append('<option value="ENTREVISTA POR CONFLICTOS VECINALES">ENTREVISTA POR CONFLICTOS VECINALES</option>')
+
+
+                        break;
+
+                    case "ORDEN PUBLICO":
+
+                        $('#SubTipoIncidencia').append('<option value="">SELECCIONAR</option>')
+                        $('#SubTipoIncidencia').append('<option value="DAÑO Y/O DETERIORO DEL ORNATO">DAÑO Y/O DETERIORO DEL ORNATO</option>')
+                        $('#SubTipoIncidencia').append('<option value="VENTA DE ANIMALES">VENTA DE ANIMALES </option>')
+                        $('#SubTipoIncidencia').append('<option value="CAMBISTAS INFORMALES">CAMBISTAS INFORMALES </option>')
+                        $('#SubTipoIncidencia').append('<option value="CONMINAR MENDIGOS">CONMINAR MENDIGOS</option>')
+                        $('#SubTipoIncidencia').append('<option value="CONMINAR ARTISTA CALLEJERO">CONMINAR ARTISTA CALLEJERO</option>')
+                        $('#SubTipoIncidencia').append('<option value="CONMINAR PELOTEROS">CONMINAR PELOTEROS</option>')
+                        $('#SubTipoIncidencia').append('<option value="CONMINAR PERSONAS EN ESTADO DE EBRIEDAD">CONMINAR PERSONAS EN ESTADO DE EBRIEDAD</option>')
+                        $('#SubTipoIncidencia').append('<option value="CONMINAR ORATE">CONMINAR ORATE</option>')
+                        $('#SubTipoIncidencia').append('<option value="CONMINAR VENDEDORES AMBULANTES">CONMINAR VENDEDORES AMBULANTES </option>')
+                        $('#SubTipoIncidencia').append('<option value="DAÑOS A LA PROPIEDAD PRIVADA POR CONSTRUCCION">DAÑOS A LA PROPIEDAD PRIVADA POR CONSTRUCCION</option>')
+                        $('#SubTipoIncidencia').append('<option value="OBSTACULIZAR LIBRE TRANSITO EN VIA PUBLICA">OBSTACULIZAR LIBRE TRANSITO EN VIA PUBLICA</option>')
+                        $('#SubTipoIncidencia').append('<option value="EXPENDER BEBIDAS ALCOHOLICAS FUERA DE HORARIO">EXPENDER BEBIDAS ALCOHOLICAS FUERA DE HORARIO</option>')
+                        $('#SubTipoIncidencia').append('<option value="CANES SIN MEDIDA DE SEGURIDAD">CANES SIN MEDIDA DE SEGURIDAD</option>')
+                        $('#SubTipoIncidencia').append('<option value="OBRAS INCONCLUSAS">OBRAS INCONCLUSAS </option>')
+                        $('#SubTipoIncidencia').append('<option value="CONSTRUCCION SIN LICENCIA">CONSTRUCCION SIN LICENCIA </option>')
+                        $('#SubTipoIncidencia').append('<option value="PARQUEADORES INFORMALES">PARQUEADORES INFORMALES</option>')
+                        $('#SubTipoIncidencia').append('<option value="ORIENTACION A RECICLADORES">ORIENTACION A RECICLADORES</option>')
+                        $('#SubTipoIncidencia').append('<option value="LAVADO DE VEHICULO EN VIA PUBLICA">LAVADO DE VEHICULO EN VIA PUBLICA</option>')
+
+                        break;
+
+                    case "ORDEN PUBLICO":
+
+                        $('#SubTipoIncidencia').append('<option value="">SELECCIONAR</option>')
+                        $('#SubTipoIncidencia').append('<option value="RUIDOS POR ALARMA Y/O BOCINA">RUIDOS POR ALARMA Y/O BOCINA </option>')
+                        $('#SubTipoIncidencia').append('<option value="RUIDOS POR ANIMALES">RUIDOS POR ANIMALES</option>')
+                        $('#SubTipoIncidencia').append('<option value="RUIDOS POR TRABAJOS EN VIVIENDAS">RUIDOS POR TRABAJOS EN VIVIENDAS</option>')
+                        $('#SubTipoIncidencia').append('<option value="RUIDOS POR CONSTRUCION FUERA DE HORARIO">RUIDOS POR CONSTRUCION FUERA DE HORARIO</option>')
+                        $('#SubTipoIncidencia').append('<option value="RUIDOS POR MAQUINAS Y/O MOTORES">RUIDOS POR MAQUINAS Y/O MOTORES</option>')
+                        $('#SubTipoIncidencia').append('<option value="RUIDOS POR MUSICA Y/O FIESTA">RUIDOS POR MUSICA Y/O FIESTA</option>')
+                        $('#SubTipoIncidencia').append('<option value="RUIDOS POR ACTIVIDADES EN COLEGIOS">RUIDOS POR ACTIVIDADES EN COLEGIOS</option>')
+                        $('#SubTipoIncidencia').append('<option value="RUIDOS POR INSTRUMENTOS MUSICALES, SILBATOS Y/O CAMPANAS">RUIDOS POR INSTRUMENTOS MUSICALES, SILBATOS Y/O CAMPANAS</option>')
+                        $('#SubTipoIncidencia').append('<option value="ESCANDALO, GRITAR Y/O VOCIFERAR">ESCANDALO, GRITAR Y/O VOCIFERAR</option>')
+
+                        break;
+
+                    default:
+                }
+            })
+
+            $('#SubTipoIncidencia').on('change', function () {
+                $("#ModalidadIncidencia").prop("disabled", false);
+                $('#ModalidadIncidencia').empty();
+                var text_select = $("#SubTipoIncidencia option:selected").text();
+
+                switch (text_select) {
+
+                    case "ATROPELLO":
+
+                        $('#ModalidadIncidencia').append('<option value="">Seleccionar</option>')
+                        $('#ModalidadIncidencia').append('<option value="Daños Materiales">Daños Materiales</option>')
+                        $('#ModalidadIncidencia').append('<option value="Lesiones Leves">Lesiones Leves</option>')
+                        $('#ModalidadIncidencia').append('<option value="Lesiones Graves">Lesiones Graves</option>')
+                        $('#ModalidadIncidencia').append('<option value="Fatales">Fatales</option>')
+
+                        break;
+
+                    case "CHOQUE":
+
+                        $('#ModalidadIncidencia').append('<option value="">Seleccionar</option>')
+                        $('#ModalidadIncidencia').append('<option value="Daños Materiales">Daños Materiales</option>')
+                        $('#ModalidadIncidencia').append('<option value="Lesiones Leves">Lesiones Leves</option>')
+                        $('#ModalidadIncidencia').append('<option value="Lesiones Graves">Lesiones Graves</option>')
+                        $('#ModalidadIncidencia').append('<option value="Fatales">Fatales</option>')
+
+                        break;
+
+                    case "INCENDIO DE VEHICULO":
+
+                        $('#ModalidadIncidencia').append('<option value="">Seleccionar</option>')
+                        $('#ModalidadIncidencia').append('<option value="Daños Materiales">Daños Materiales</option>')
+                        $('#ModalidadIncidencia').append('<option value="Lesiones Leves">Lesiones Leves</option>')
+                        $('#ModalidadIncidencia').append('<option value="Lesiones Graves">Lesiones Graves</option>')
+                        $('#ModalidadIncidencia').append('<option value="Fatales">Fatales</option>')
+
+                        break;
+
+                    case "DESPISTE":
+
+                        $('#ModalidadIncidencia').append('<option value="">Seleccionar</option>')
+                        $('#ModalidadIncidencia').append('<option value="Daños Materiales">Daños Materiales</option>')
+                        $('#ModalidadIncidencia').append('<option value="Lesiones Leves">Lesiones Leves</option>')
+                        $('#ModalidadIncidencia').append('<option value="Lesiones Graves">Lesiones Graves</option>')
+                        $('#ModalidadIncidencia').append('<option value="Fatales">Fatales</option>')
+
+                        break;
+
+                    case "VOLCADURA":
+
+                        $('#ModalidadIncidencia').append('<option value="">Seleccionar</option>')
+                        $('#ModalidadIncidencia').append('<option value="Daños Materiales">Daños Materiales</option>')
+                        $('#ModalidadIncidencia').append('<option value="Lesiones Leves">Lesiones Leves</option>')
+                        $('#ModalidadIncidencia').append('<option value="Lesiones Graves">Lesiones Graves</option>')
+                        $('#ModalidadIncidencia').append('<option value="Fatales">Fatales</option>')
+
+                        break;
+
+                    case "CAÍDA DE PASAJERO":
+
+                        $('#ModalidadIncidencia').append('<option value="">Seleccionar</option>')
+                        $('#ModalidadIncidencia').append('<option value="Daños Materiales">Daños Materiales</option>')
+                        $('#ModalidadIncidencia').append('<option value="Lesiones Leves">Lesiones Leves</option>')
+                        $('#ModalidadIncidencia').append('<option value="Lesiones Graves">Lesiones Graves</option>')
+                        $('#ModalidadIncidencia').append('<option value="Fatales">Fatales</option>')
+
+                        break;
+
+                    case "LESIONES":
+
+                        $('#ModalidadIncidencia').append('<option value="">Seleccionar</option>')
+                        $('#ModalidadIncidencia').append('<option value="Lesiones por arma de fuego">Lesiones por arma de fuego</option>')
+                        $('#ModalidadIncidencia').append('<option value="Lesiones por arma blanca">Lesiones por arma blanca</option>')
+
+                        break;
+
+                    case "HECHOS A TRANSEUNTES EN LA VIA PUBLICA":
+
+                        $('#ModalidadIncidencia').append('<option value="">Seleccionar</option>')
+                        $('#ModalidadIncidencia').append('<option value="Arrebato">Arrebato</option>')
+                        $('#ModalidadIncidencia').append('<option value="Asalto a Mano Armada">Asalto a Mano Armada</option>')
+                        $('#ModalidadIncidencia').append('<option value="Bujillazo">Bujillazo</option>')
+                        $('#ModalidadIncidencia').append('<option value="Cogoteo">Cogoteo</option>')
+                        $('#ModalidadIncidencia').append('<option value="Hurto Simple">Hurto Simple</option>')
+                        $('#ModalidadIncidencia').append('<option value="Hurto Agravado">Hurto Agravado</option>')
+                        $('#ModalidadIncidencia').append('<option value="Robo Agravado">Robo Agravado</option>')
+
+                        break;
+
+                    case "HECHOS A ESTABLECIMIENTOS COMERCIAL":
+
+                        $('#ModalidadIncidencia').append('<option value="">Seleccionar</option>')
+                        $('#ModalidadIncidencia').append('<option value="Asalto a Mano Armada">Asalto a Mano Armada</option>')
+                        $('#ModalidadIncidencia').append('<option value="Hurto Simple">Hurto Simple</option>')
+                        $('#ModalidadIncidencia').append('<option value="Hurto Agravado">Hurto Agravado</option>')
+                        $('#ModalidadIncidencia').append('<option value="Robo Agravado">Robo Agravado</option>')
+                        $('#ModalidadIncidencia').append('<option value="Tendero">Tendero</option>')
+
+                        break;
+
+                    case "ROBO DE AUTOPARTES Y/O ACCESORIOS":
+
+                        $('#ModalidadIncidencia').append('<option value="">Seleccionar</option>')
+                        $('#ModalidadIncidencia').append('<option value="Asalto a Mano Armada">Asalto a Mano Armada</option>')
+                        $('#ModalidadIncidencia').append('<option value="Hurto Simple">Hurto Simple</option>')
+                        $('#ModalidadIncidencia').append('<option value="Hurto Agravado">Hurto Agravado</option>')
+                        $('#ModalidadIncidencia').append('<option value="Robo Agravado">Robo Agravado</option>')
+
+                        break;
+
+                    case "ROBO DE VEHICULOS":
+
+                        $('#ModalidadIncidencia').append('<option value="">Seleccionar</option>')
+                        $('#ModalidadIncidencia').append('<option value="Asalto a Mano Armada">Asalto a Mano Armada</option>')
+                        $('#ModalidadIncidencia').append('<option value="Hurto Estacionado">Hurto Estacionado</option>')
+
+                        break;
+
+                    case "ROBO DE VEHICULOS MENORES":
+
+                        $('#ModalidadIncidencia').append('<option value="">Seleccionar</option>')
+                        $('#ModalidadIncidencia').append('<option value="Asalto a Mano Armada">Asalto a Mano Armada</option>')
+                        $('#ModalidadIncidencia').append('<option value="Hurto Estacionado">Hurto Estacionado</option>')
+                        $('#ModalidadIncidencia').append('<option value="Robo Agravado">Robo Agravado</option>')
+
+                        break;
+
+                    case "ROBO DE VIVIENDA MULTIFAMILIAR":
+
+                        $('#ModalidadIncidencia').append('<option value="">Seleccionar</option>')
+                        $('#ModalidadIncidencia').append('<option value="Asalto a Mano Armada">Asalto a Mano Armada</option>')
+                        $('#ModalidadIncidencia').append('<option value="Escalamiento">Escalamiento</option>')
+                        $('#ModalidadIncidencia').append('<option value="Robo Agravado(Ingreso violentado)">Robo Agravado(Ingreso violentado)</option>')
+
+                        break;
+
+                    case "ROBO DE VIVIENDA UNIFAMILIAR":
+
+                        $('#ModalidadIncidencia').append('<option value="">Seleccionar</option>')
+                        $('#ModalidadIncidencia').append('<option value="Asalto a Mano Armada">Asalto a Mano Armada</option>')
+                        $('#ModalidadIncidencia').append('<option value="Escalamiento">Escalamiento</option>')
+                        $('#ModalidadIncidencia').append('<option value="Robo Agravado(Ingreso violentado)">Robo Agravado(Ingreso violentado)</option>')
+
+                        break;
+
+                    default:
+                }
+
+            })
+
+        });
+
+        $(document).ready(function () {
+            $('ul.tabs li a:first').addClass('active');
+            $('.secciones article').hide();
+            $('.secciones article:first').show();
+
+            $('ul.tabs li a').click(function () {
+                $('ul.tabs li a').removeClass('active');
+                $(this).addClass('active');
+                $('.secciones article').hide();
+
+                var activeTab = $(this).attr('href');
+                $(activeTab).show();
+                return false;
+            });
+        });
+
+    </script>
+
+    @using (Html.BeginForm())
+    {
+        @Html.AntiForgeryToken()
+
+        <div class="form-horizontal">
+            <legend>Incidencia</legend>
+            <hr />
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="form-group">
+                        @Html.LabelFor(m => m.UnidadAtencion, new { @class = "col-md-2 control-label" })
+                        <div class="">
+                            @Html.DropDownList("UnidadAtencion", ViewData["Tipos"] as SelectList, new { @class = "form-control" })
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        @Html.LabelFor(m => m.TipoIncidencia, new { @class = "col-md-2 control-label" })
+                        <div class="">
+                            <select id="TipoIncidencia" name="TipoIncidencia" class="form-control"></select>
+                        </div>
+
+                    </div>
+                    <div class="form-group">
+                        @Html.LabelFor(m => m.SubTipoIncidencia, new { @class = "col-md-2 control-label" })
+                        <div class="">
+                            <select id="SubTipoIncidencia" name="SubTipoIncidencia" class="form-control"></select>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        @Html.LabelFor(m => m.ModalidadIncidencia, new { @class = "col-md-2 control-label" })
+                        <div class="">
+                            <select id="ModalidadIncidencia" name="ModalidadIncidencia" class="form-control"></select>
+                        </div>
+                    </div>
+
+                </div>
+
+
+                <div class="col-md-6">
+                    <div class="form-group">
+                        @Html.Label("Zona", new { @class = "control-label col-md-3" })
+                        <div class="col-md-9">
+                            @Html.DropDownList("Mancomunidad", ViewData["Distrito"] as SelectList, new { @class = "form-control" })
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        @Html.Label("Distrito", new { @class = "control-label col-md-3" })
+                        <div class="col-md-9">
+                            <select id="Distrito" name="Distrito" class="form-control"></select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.Usuario, htmlAttributes: new { @class = "control-label col-md-3" })
+                        <div class="col-md-9">
+                            @Html.TextBoxFor(model => model.Usuario, new { disabled = "disabled", @class = "form-control" })
+                            @Html.ValidationMessageFor(model => model.Usuario, "", new { @class = "text-danger" })
+                            <!--<input type="text" name="Usuario" value="Aaron" disabled class="form-control"/>-->
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.Turno, htmlAttributes: new { @class = "control-label col-md-3" })
+                        <div class="col-md-9">
+                            @Html.DropDownList("Turno", ViewData["Turno"] as SelectList, new { @class = "form-control" })
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.Semaforizacion, htmlAttributes: new { @class = "control-label col-md-3" })
+                        <div class="col-md-9">
+                            @Html.DropDownList("Semaforizacion", ViewData["Semaforizacion"] as SelectList, new { @class = "form-control" })
+                        </div>
+                    </div>
+
+                </div>
+
+            </div>
+
+            <style>
+
+                .wrap {
+                    width: 100%;
+                    max-width: 90%;
+                    margin: 30px auto;
+                }
+
+                ul.tabs {
+                    width: 100%;
+                    background: none;
+                    list-style: none;
+                    display: flex;
+                }
+
+                    ul.tabs li a {
+                        color: black;
+                        text-decoration: none;
+                        font-size: 15px;
+                        text-align: center;
+                        display: block;
+                        padding: 9px 0px 9px 0px;
+                        border-width: medium;
+                        border-color: none;
+                        border-style: outset;
+                        width: 208px;
+                        border-radius: 5px;
+                        /*Ancho	border-width	thin, medium, thick (También puede emplearse una medida de longitud)
+                    Color	border-color	Color o transparente
+                    Estilo	border-style	none, hidden, dotted, dashed, solid, double, groove, ridge, inset y outset
+                    */
+                    }
+                    .active{
+	                    background: #E3E1E0;
+	                    font-weight: bold;
+                    }
+
+                    /*-------------------------------------------------*/
+                    ul.tabs li a .tab-text{
+	                    margin-left: 7px;
+                        }
+
+                    .secciones {
+                        width: 100%;
+                        background: #E3E1E0;
+                        border-radius: 10px;
+                    }
+
+                    .secciones article{
+	                        padding: 12px;
+                        }
+
+                    .secciones article p{
+	                        text-align: justify;
+                        }
+
+            </style>
+
+        <div class="wrap">
+		    <ul class="tabs">
+			    <li><a href="#tab1">Información del Contacto</a></li>
+			    <li><a href="#tab2">Detalle de la Incidencia</a></li>
+			    <li><a href="#tab3">Hora y Cierre de Incidencia</a></li>
+			    <li><a href="#tab4">Cargar Evidencias</a></li>
+		    </ul>
+
+		    <div class="secciones">
+			    <article id="tab1">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.DireccionIncidencia, htmlAttributes: new { @class = "control-label col-md-2" })
+                                <div class="col-md-10">
+                                    @Html.EditorFor(model => model.DireccionIncidencia, new { htmlAttributes = new { @class = "form-control t1" } })
+                                    @Html.ValidationMessageFor(model => model.DireccionIncidencia, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.FuenteInfo, htmlAttributes: new { @class = "control-label col-md-2" })
+                                <div class="col-md-10">
+                                    @Html.DropDownList("FuenteInfo", ViewData["FuenteInfo"] as SelectList, new { @class = "form-control" })
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.ContactoIncidencia, htmlAttributes: new { @class = "control-label col-md-2" })
+                                <div class="col-md-10">
+                                    @Html.EditorFor(model => model.ContactoIncidencia, new { htmlAttributes = new { @class = "form-control" } })
+                                    @Html.ValidationMessageFor(model => model.ContactoIncidencia, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+
+                        </div>
+
+                        <div class="col-md-6">
+
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.TelefonoContacto, htmlAttributes: new { @class = "control-label col-md-2" })
+                                <div class="col-md-10">
+                                    @Html.EditorFor(model => model.TelefonoContacto, new { htmlAttributes = new { @class = "form-control", @placeholder = "987 654 321" } })
+                                    @Html.ValidationMessageFor(model => model.TelefonoContacto, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.CargoContacto, htmlAttributes: new { @class = "control-label col-md-2" })
+                                <div class="col-md-10">
+                                    @Html.EditorFor(model => model.CargoContacto, new { htmlAttributes = new { @class = "form-control" } })
+                                    @Html.ValidationMessageFor(model => model.CargoContacto, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.InstitucionContacto, htmlAttributes: new { @class = "control-label col-md-2" })
+                                <div class="col-md-10">
+                                    @Html.EditorFor(model => model.InstitucionContacto, new { htmlAttributes = new { @class = "form-control" } })
+                                    @Html.ValidationMessageFor(model => model.InstitucionContacto, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+			    </article>
+			    <article id="tab2">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.DescripcionIncidencia, htmlAttributes: new { @class = "control-label col-md-2 col-md-offset-4" })<br /><br />
+                                <div class="col-md-12 col-md-offset-2">
+                                    @Html.TextArea("DescripcionIncidencia", new { rows=7, columns=40, @class = "form-control"})
+                                    @Html.ValidationMessageFor(model => model.DescripcionIncidencia, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.ObservacionIncidencia, htmlAttributes: new { @class = "col-md-2 col-md-offset-3", @style="text-align:center;" })<br /><br />
+                                <div class="col-md-10 col-md-offset-1">
+                                    @Html.TextArea("ObservacionIncidencia", new { rows=7, columns=40, @class = "form-control txarea" })
+                                    @Html.ValidationMessageFor(model => model.ObservacionIncidencia, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </article>
+			    <article id="tab3">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.ApoyoInter, htmlAttributes: new { @class = "control-label col-md-5" })
+                                <div class="col-md-7">
+                                    @Html.DropDownList("ApoyoInter", ViewData["ApoyoI"] as SelectList, new { @class = "form-control" })
+                                    @Html.ValidationMessageFor(model => model.ApoyoInter, "", new { @class = "text-danger" })
+                                    @Html.EditorFor(model => model.ApoyoInter, new { htmlAttributes = new { display ="none", @class = "form-control", disabled = "disabled", @style ="display:none" } })
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.PrimerCanal, htmlAttributes: new { @class = "control-label col-md-7" })
+                                <div class="col-md-2">
+                                    <div class="checkbox">
+                                        @Html.EditorFor(model => model.PrimerCanal)
+                                        @Html.ValidationMessageFor(model => model.PrimerCanal, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.FechaIncidencia, htmlAttributes: new { @class = "control-label col-md-2" })
+                                <div class="col-md-10">
+                                    <input type="text" name="FechaIncidencia" id="FechaIncidencia" class="form-control" disabled value="@String.Format("{0:dd/MM/yyyy}",System.DateTime.Today)" />
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <div class="col-md-10">
+                                    <input type="text" name="HoraRegistroInc" id="HoraRegistroInc" class="form-control" disabled value="@String.Format("{0:hh:mm}",System.DateTime.Now)" style="display:none;"/>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.EstadoIncidencia, htmlAttributes: new { @class = "control-label col-md-2" })
+                                <div class="col-md-10">
+                                    @Html.DropDownList("EstadoIncidencia", ViewData["Estado"] as SelectList, new { @class = "form-control" })
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </article>
+                <article id="tab4">
+                    <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d499449.21983654675!2d-77.19036144433542!3d-12.047165623898724!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x91067eafe2fe2745%3A0x2cb1258e65dfb24a!2sLima%20Metropolitan%20Area!5e0!3m2!1ses!2spe!4v1594065958005!5m2!1ses!2spe"
+                            width="600" height="450" frameborder="0" style="border:0;" allowfullscreen="" 
+                            aria-hidden="false" tabindex="0"></iframe>
+                </article>
+		    </div>
+	    </div>
+
+            <br />
+            <div class="form-group">
+                <div class="col-md-offset-5 col-md-6">
+                    <input type="submit" value="Create" class="btn btn-default" />
+                </div>
+            </div>
+        </div>
+    }
+
+    <div>
+        @Html.ActionLink("Back to List", "Index")
+    </div>
+</body>
+</html>

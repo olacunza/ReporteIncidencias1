@@ -1,0 +1,226 @@
+﻿@model ReporteIncidencias1.Models.Incidencia
+
+@{
+    ViewBag.Tittle = "";
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Details2</title>
+</head>
+<body>
+    <div>
+        <h4>Incidencia</h4>
+        <hr />
+        <dl class="dl-horizontal">
+            <dt>
+                @Html.DisplayNameFor(model => model.UnidadAtencion)
+            </dt>
+    
+            <dd>
+                @Html.DisplayFor(model => model.UnidadAtencion)
+            </dd>
+    
+            <dt>
+                @Html.DisplayNameFor(model => model.TipoIncidencia)
+            </dt>
+    
+            <dd>
+                @Html.DisplayFor(model => model.TipoIncidencia)
+            </dd>
+    
+            <dt>
+                @Html.DisplayNameFor(model => model.SubTipoIncidencia)
+            </dt>
+    
+            <dd>
+                @Html.DisplayFor(model => model.SubTipoIncidencia)
+            </dd>
+    
+            <dt>
+                @Html.DisplayNameFor(model => model.ModalidadIncidencia)
+            </dt>
+    
+            <dd>
+                @Html.DisplayFor(model => model.ModalidadIncidencia)
+            </dd>
+    
+            <dt>
+                @Html.DisplayNameFor(model => model.Usuario)
+            </dt>
+    
+            <dd>
+                @Html.DisplayFor(model => model.Usuario)
+            </dd>
+    
+            <dt>
+                @Html.DisplayNameFor(model => model.Turno)
+            </dt>
+    
+            <dd>
+                @Html.DisplayFor(model => model.Turno)
+            </dd>
+    
+            <dt>
+                @Html.DisplayNameFor(model => model.Mancomunidad)
+            </dt>
+    
+            <dd>
+                @Html.DisplayFor(model => model.Mancomunidad)
+            </dd>
+    
+            <dt>
+                @Html.DisplayNameFor(model => model.Distrito)
+            </dt>
+    
+            <dd>
+                @Html.DisplayFor(model => model.Distrito)
+            </dd>
+    
+            <dt>
+                @Html.DisplayNameFor(model => model.Semaforizacion)
+            </dt>
+    
+            <dd>
+                @Html.DisplayFor(model => model.Semaforizacion)
+            </dd>
+    
+            <dt>
+                @Html.DisplayNameFor(model => model.DireccionIncidencia)
+            </dt>
+    
+            <dd>
+                @Html.DisplayFor(model => model.DireccionIncidencia)
+            </dd>
+    
+            <dt>
+                @Html.DisplayNameFor(model => model.FuenteInfo)
+            </dt>
+    
+            <dd>
+                @Html.DisplayFor(model => model.FuenteInfo)
+            </dd>
+    
+            <dt>
+                @Html.DisplayNameFor(model => model.ContactoIncidencia)
+            </dt>
+    
+            <dd>
+                @Html.DisplayFor(model => model.ContactoIncidencia)
+            </dd>
+    
+            <dt>
+                @Html.DisplayNameFor(model => model.TelefonoContacto)
+            </dt>
+    
+            <dd>
+                @Html.DisplayFor(model => model.TelefonoContacto)
+            </dd>
+    
+            <dt>
+                @Html.DisplayNameFor(model => model.CargoContacto)
+            </dt>
+    
+            <dd>
+                @Html.DisplayFor(model => model.CargoContacto)
+            </dd>
+    
+            <dt>
+                @Html.DisplayNameFor(model => model.InstitucionContacto)
+            </dt>
+    
+            <dd>
+                @Html.DisplayFor(model => model.InstitucionContacto)
+            </dd>
+    
+            <dt>
+                @Html.DisplayNameFor(model => model.DescripcionIncidencia)
+            </dt>
+    
+            <dd>
+                @Html.DisplayFor(model => model.DescripcionIncidencia)
+            </dd>
+    
+            <dt>
+                @Html.DisplayNameFor(model => model.ObservacionIncidencia)
+            </dt>
+    
+            <dd>
+                @Html.DisplayFor(model => model.ObservacionIncidencia)
+            </dd>
+    
+            <dt>
+                @Html.DisplayNameFor(model => model.ApoyoInter)
+            </dt>
+    
+            <dd>
+                @Html.DisplayFor(model => model.ApoyoInter)
+            </dd>
+    
+            <dt>
+                @Html.DisplayNameFor(model => model.PrimerCanal)
+            </dt>
+    
+            <dd>
+                @Html.DisplayFor(model => model.PrimerCanal)
+            </dd>
+    
+            <dt>
+                @Html.DisplayNameFor(model => model.FechaIncidencia)
+            </dt>
+    
+            <dd>
+                @Html.DisplayFor(model => model.FechaIncidencia)
+            </dd>
+    
+            <dt>
+                @Html.DisplayNameFor(model => model.HoraRegistroInc)
+            </dt>
+    
+            <dd>
+                @Html.DisplayFor(model => model.HoraRegistroInc)
+            </dd>
+    
+            <dt>
+                @Html.DisplayNameFor(model => model.EstadoIncidencia)
+            </dt>
+    
+            <dd>
+                @Html.DisplayFor(model => model.EstadoIncidencia)
+            </dd>
+    
+            <dt>
+                @Html.DisplayNameFor(model => model.Evidencia1)
+            </dt>
+    
+            <dd>
+                @Html.DisplayFor(model => model.Evidencia1)
+            </dd>
+    
+            <dt>
+                @Html.DisplayNameFor(model => model.Evidencia2)
+            </dt>
+    
+            <dd>
+                @Html.DisplayFor(model => model.Evidencia2)
+            </dd>
+    
+            <dt>
+                @Html.DisplayNameFor(model => model.Evidencia3)
+            </dt>
+    
+            <dd>
+                @Html.DisplayFor(model => model.Evidencia3)
+            </dd>
+    
+        </dl>
+    </div>
+    <p>
+        @Html.ActionLink("Edit", "Edit", new { id = Model.IncidenciaID }) |
+        @Html.ActionLink("Back to List", "Index")
+    </p>
+</body>
+</html>
